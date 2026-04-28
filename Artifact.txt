@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Impostor — Dinámica Psicopatología</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --ink: #1a1a2e;
+    --cream: #f5f0e8;
+    --gold: #c9a84c;
+    --rust: #b5451b;
+    --muted: #7a7060;
+    --border: rgba(26,26,46,0.15);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--cream);
+    color: var(--ink);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    padding: 2rem 1rem 4rem;
+  }
+
+  .page { max-width: 860px; margin: 0 auto; }
+
+  header {
+    border-top: 3px solid var(--ink);
+    border-bottom: 1px solid var(--border);
+    padding: 2.5rem 0 2rem;
+    margin-bottom: 2.5rem;
+  }
+
+  .label {
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2rem, 5vw, 3.2rem);
+    font-weight: 900;
+    line-height: 1.1;
+    margin-bottom: 0.5rem;
+  }
+
+  h1 em { color: var(--rust); font-style: italic; }
+  .subtitle { font-size: 1rem; color: var(--muted); max-width: 540px; }
+
+  .meta-row { display: flex; gap: 2rem; margin-top: 1.5rem; flex-wrap: wrap; }
+  .meta-item { display: flex; align-items: center; gap: 0.4rem; font-size: 0.82rem; color: var(--muted); }
+  .meta-item strong { color: var(--ink); font-weight: 500; }
+
+  section { margin-bottom: 2.8rem; }
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  h2::before {
+    content: '';
+    display: inline-block;
+    width: 18px;
+    height: 3px;
+    background: var(--gold);
+    flex-shrink: 0;
+  }
+
+  .objective-box {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 1.5rem 2rem;
+    border-radius: 2px;
+    font-size: 0.97rem;
+    line-height: 1.85;
+  }
+  .objective-box strong { color: var(--gold); }
+
+  .steps { display: flex; flex-direction: column; gap: 0.9rem; }
+
+  .step {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    gap: 1rem;
+    align-items: start;
+    padding: 1rem 1.2rem;
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 2px;
+  }
+
+  .step-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--gold);
+    line-height: 1;
+    padding-top: 0.15rem;
+  }
+
+  .step-text { font-size: 0.95rem; }
+  .step-text strong { font-weight: 500; }
+
+  .phase-tag {
+    display: inline-block;
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: var(--gold);
+    color: var(--ink);
+    padding: 0.1rem 0.45rem;
+    border-radius: 2px;
+    font-weight: 500;
+    margin-bottom: 0.3rem;
+  }
+
+  /* SECRET CARDS */
+  .cards-intro {
+    font-size: 0.85rem;
+    color: var(--muted);
+    margin-bottom: 1.4rem;
+    padding: 0.8rem 1rem;
+    border-left: 3px solid var(--gold);
+    background: white;
+  }
+
+  .secret-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .secret-card {
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .card-header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 0.65rem 1.2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card-group {
+    font-family: 'Playfair Display', serif;
+    font-weight: 700;
+    font-size: 1rem;
+  }
+
+  .card-role {
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    opacity: 0.75;
+  }
+
+  /* Impostor role hidden until revealed */
+  .impostor-card .card-role { visibility: hidden; }
+
+  .show-answers .impostor-card .card-role { visibility: visible; }
+  .show-answers .impostor-card .card-header { background: var(--rust); }
+  .show-answers .impostor-card { border-color: var(--rust); }
+  .show-answers .impostor-card .card-body blockquote { color: var(--rust); font-style: italic; }
+
+  .card-body { padding: 1.1rem 1.2rem; font-size: 0.92rem; line-height: 1.65; }
+
+  .card-body .topic-label {
+    font-size: 0.7rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .card-body blockquote {
+    border-left: 3px solid var(--border);
+    padding-left: 0.9rem;
+    color: var(--ink);
+  }
+
+  /* HINTS GRID */
+  .hints-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 0.9rem;
+  }
+
+  .hint-card {
+    border: 1px solid var(--border);
+    background: white;
+    padding: 0.9rem 1rem;
+    border-radius: 2px;
+    font-size: 0.88rem;
+  }
+
+  .hint-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    margin-bottom: 0.3rem;
+  }
+
+  .hint-card p { color: var(--muted); font-size: 0.83rem; }
+
+  /* DEBATE CARDS */
+  .debate-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 1rem;
+  }
+
+  .debate-card {
+    border: 1px solid var(--border);
+    padding: 1rem 1.2rem;
+    background: white;
+    border-radius: 2px;
+  }
+
+  .debate-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 0.95rem;
+    margin-bottom: 0.35rem;
+  }
+
+  .debate-card p { font-size: 0.84rem; color: var(--muted); }
+
+  /* RESERVE */
+  .reserve-wrap {
+    border: 1px solid var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .reserve-header {
+    background: var(--ink);
+    color: var(--cream);
+    padding: 0.9rem 1.4rem;
+  }
+
+  .reserve-header h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1rem;
+    font-weight: 700;
+  }
+
+  .reserve-header p { font-size: 0.8rem; opacity: 0.7; margin-top: 0.15rem; }
+
+  .reserve-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+    gap: 1.2rem;
+    padding: 1.2rem;
+    background: white;
+  }
+
+  .mini-card { border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
+
+  .mini-header {
+    background: #2d2d3d;
+    color: var(--cream);
+    padding: 0.5rem 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .mini-header span:first-child { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.9rem; }
+  .mini-header span:last-child { font-size: 0.65rem; opacity: 0.6; letter-spacing: 0.08em; text-transform: uppercase; }
+
+  .mini-body { padding: 0.8rem 1rem; }
+
+  .mini-body ul { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
+
+  .mini-body ul li {
+    font-size: 0.82rem;
+    padding: 0.4rem 0.7rem;
+    border-left: 3px solid var(--border);
+    line-height: 1.45;
+  }
+
+  .mini-body ul li.opinion { border-left-color: var(--border); }
+
+  /* TOGGLE */
+  .toggle-section { text-align: center; margin-top: 1.5rem; }
+
+  #toggleBtn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    background: none;
+    border: 1.5px solid var(--ink);
+    padding: 0.6rem 1.6rem;
+    cursor: pointer;
+    color: var(--ink);
+    transition: all 0.2s;
+    border-radius: 2px;
+  }
+
+  #toggleBtn:hover { background: var(--ink); color: var(--cream); }
+
+  footer {
+    margin-top: 3rem;
+    border-top: 1px solid var(--border);
+    padding-top: 1rem;
+    font-size: 0.78rem;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  @media (max-width: 600px) {
+    .secret-grid, .reserve-grid, .hints-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <div class="label">Dinámica de aula · Psicología · Tercer curso</div>
+    <h1>¿Quién es el <em>Impostor</em>?</h1>
+    <div class="meta-row">
+      <div class="meta-item">👥 <strong>5 grupos</strong></div>
+      <div class="meta-item">⏱ <strong>35 min</strong></div>
+      <div class="meta-item">📚 <strong>Tema:</strong> Depresión Mayor</div>
+      <div class="meta-item">🎯 <strong>Nivel:</strong> Grado en Psicología</div>
+    </div>
+  </header>
+
+  <section>
+    <h2>Objetivo</h2>
+    <div class="objective-box">
+      Desarrollar el <strong>pensamiento crítico clínico</strong> mediante la argumentación activa. Cada grupo recibe en secreto una sola afirmación sobre depresión mayor y debe defenderla como un <em>hecho</em> ante el resto de la clase. El reto: <strong>uno de los cinco grupos tiene una opinión disfrazada de hecho</strong>. Los demás deben detectarlo a través del debate y votar quién es el impostor. Gana el grupo que mejor argumente — tanto los "inocentes" al justificar sus hechos, como el "impostor" si logra pasar desapercibido.
+    </div>
+  </section>
+
+  <section>
+    <h2>Procedimiento</h2>
+    <div class="steps">
+
+      <div class="step">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <div class="phase-tag">Preparación — 5 min</div>
+          <strong>Reparto de tarjetas en secreto.</strong> Se entrega a cada grupo un papel con una única frase. En total hay 5 frases distintas repartidas entre los grupos: 4 son hechos y 1 es una opinión. Ningún grupo sabe qué frase tienen los demás ni quién lleva la opinión. Durante este tiempo, cada grupo debe leer su frase y buscar argumentos que la defiendan como un hecho verificable: ¿qué fuente la respalda? ¿es contrastable empíricamente? ¿puede refutarse con evidencia?
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          <div class="phase-tag">Ronda de presentaciones — 10 min</div>
+          <strong>Cada grupo expone y defiende su frase.</strong> Por turnos, cada grupo lee su frase en voz alta y argumenta por qué es un hecho. Tienen aproximadamente 2 minutos por grupo. Es fundamental que todos defiendan con convicción — incluido el grupo impostor, que debe intentar camuflarse usando el mismo tipo de argumentación que los demás.
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          <div class="phase-tag">Interrogatorio — 8 min</div>
+          <strong>Turno de preguntas cruzadas.</strong> Una vez que todos los grupos han expuesto, cualquier grupo puede hacer preguntas a cualquier otro para intentar desenmascararlos. Algunas preguntas útiles: ¿Podéis citar un estudio concreto que lo respalde? ¿Vuestra frase describe algo que ocurre o prescribe algo que debería ocurrir? ¿Sería posible diseñar un experimento que la refutase?
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">4</div>
+        <div class="step-text">
+          <div class="phase-tag">Votación — 3 min</div>
+          <strong>Cada grupo decide quién es el impostor.</strong> Tras escuchar todas las presentaciones y el interrogatorio, cada grupo vota en secreto qué otro grupo cree que lleva la opinión. Se escriben los votos en un papel, se recogen a la vez y se cuentan en público.
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-num">5</div>
+        <div class="step-text">
+          <div class="phase-tag">Revelación y debate — 9 min</div>
+          <strong>El docente revela al impostor.</strong> Se descubre qué grupo llevaba la opinión y se abre el debate: ¿qué pistas la delataban? ¿Por qué es difícil distinguirla cuando está bien formulada? ¿Qué implicaciones tiene en la práctica clínica confundir una opinión con un hecho?
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section>
+    <h2>Tarjetas secretas — una por grupo</h2>
+    <div class="cards-intro">
+      ⚠️ <strong>Instrucción para el docente:</strong> Recorta y reparte estas tarjetas individualmente antes de empezar. Los grupos no deben ver la tarjeta de los demás. El grupo impostor no necesita saber de antemano que lo es — puede descubrirlo en la revelación final, lo que añade un giro extra a la dinámica.
+    </div>
+
+    <div class="secret-grid" id="cardsContainer">
+
+      <div class="secret-card">
+        <div class="card-header">
+          <span class="card-group">Grupo 1</span>
+          <span class="card-role"></span>
+        </div>
+        <div class="card-body">
+          <div class="topic-label">Depresión Mayor</div>
+          <blockquote>El DSM-5 requiere la presencia de al menos 5 síntomas durante un período mínimo de dos semanas consecutivas, siendo obligatorio que entre ellos figure el estado de ánimo deprimido o la anhedonia, para diagnosticar un episodio depresivo mayor.</blockquote>
+        </div>
+      </div>
+
+      <div class="secret-card">
+        <div class="card-header">
+          <span class="card-group">Grupo 2</span>
+          <span class="card-role"></span>
+        </div>
+        <div class="card-body">
+          <div class="topic-label">Depresión Mayor</div>
+          <blockquote>La depresión mayor es el trastorno mental que genera más años de vida ajustados por discapacidad (AVAD) a nivel mundial, según los datos del Global Burden of Disease publicados por la OMS.</blockquote>
+        </div>
+      </div>
+
+      <div class="secret-card">
+        <div class="card-header">
+          <span class="card-group">Grupo 3</span>
+          <span class="card-role"></span>
+        </div>
+        <div class="card-body">
+          <div class="topic-label">Depresión Mayor</div>
+          <blockquote>Los antidepresivos ISRS actúan bloqueando el transportador de serotonina (SERT) en la membrana presináptica, lo que reduce la recaptación de serotonina e incrementa su concentración disponible en la hendidura sináptica.</blockquote>
+        </div>
+      </div>
+
+      <div class="secret-card">
+        <div class="card-header">
+          <span class="card-group">Grupo 4</span>
+          <span class="card-role"></span>
+        </div>
+        <div class="card-body">
+          <div class="topic-label">Depresión Mayor</div>
+          <blockquote>Múltiples metaanálisis de ensayos clínicos controlados aleatorizados han evidenciado que la terapia cognitivo-conductual presenta una eficacia comparable a los antidepresivos en episodios depresivos mayores de intensidad leve a moderada.</blockquote>
+        </div>
+      </div>
+
+      <div class="secret-card impostor-card">
+        <div class="card-header">
+          <span class="card-group">Grupo 5</span>
+          <span class="card-role">⚠ IMPOSTOR</span>
+        </div>
+        <div class="card-body">
+          <div class="topic-label">Depresión Mayor</div>
+          <blockquote>Dado que la hipótesis monoaminérgica ha demostrado ser una explicación etiológica insuficiente de la depresión mayor, los tratamientos farmacológicos basados exclusivamente en ISRS deberían considerarse éticamente cuestionables hasta que se desarrollen modelos explicativos más completos y representativos.</blockquote>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="toggle-section">
+      <button id="toggleBtn" onclick="toggleAnswers()">Revelar impostor (solo docente)</button>
+    </div>
+  </section>
+
+
+
+  <section>
+    <h2>Preguntas para el cierre</h2>
+    <div class="debate-cards">
+      <div class="debate-card">
+        <h3>🧠 Criterios lingüísticos</h3>
+        <p>¿Qué palabras o estructuras gramaticales os dieron pistas de que una frase podría ser una opinión y no un hecho?</p>
+      </div>
+      <div class="debate-card">
+        <h3>⚕️ Implicación clínica</h3>
+        <p>¿Qué consecuencias tendría para un paciente que un clínico confunda esta opinión con un hecho al tomar decisiones terapéuticas?</p>
+      </div>
+      <div class="debate-card">
+        <h3>🔬 Ciencia y valores</h3>
+        <p>¿Puede la ciencia responder a la pregunta de si un tratamiento "debería" usarse, o eso siempre implica inevitablemente un juicio de valor?</p>
+      </div>
+      <div class="debate-card">
+        <h3>🎭 El impostor sofisticado</h3>
+        <p>¿Por qué esta opinión en concreto es difícil de detectar? ¿Qué la hace más engañosa que un simple estereotipo o prejuicio popular?</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="reserve-wrap">
+      <div class="reserve-header">
+        <h3>Rondas de ampliación — si sobra tiempo</h3>
+        <p>Cada bloque puede jugarse como una ronda adicional con el mismo formato: se reparten las 5 frases del nuevo tema y se repite la dinámica completa.</p>
+      </div>
+      <div class="reserve-grid" id="reserveContainer">
+
+        <div class="mini-card">
+          <div class="mini-header">
+            <span>Ronda 2 — Esquizofrenia</span>
+            <span>Ampliación</span>
+          </div>
+          <div class="mini-body">
+            <ul>
+              <li>La esquizofrenia tiene una prevalencia estimada de aproximadamente el 1% de la población mundial.</li>
+              <li>Los síntomas positivos incluyen alucinaciones y delirios; los negativos incluyen alogia, avolición y aplanamiento afectivo.</li>
+              <li>Los antipsicóticos de segunda generación bloquean principalmente receptores dopaminérgicos D2 y también receptores serotoninérgicos 5-HT2A.</li>
+              <li class="opinion">Puesto que la desregulación dopaminérgica mesolímbica explica los síntomas positivos pero no los negativos ni los cognitivos, el modelo dopaminérgico sigue siendo el marco teórico más adecuado para orientar el tratamiento integral de la esquizofrenia.</li>
+              <li>Los estudios de neuroimagen muestran reducciones en el volumen de materia gris en regiones prefrontales y temporales en personas diagnosticadas con esquizofrenia.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mini-card">
+          <div class="mini-header">
+            <span>Ronda 3 — TOC</span>
+            <span>Ampliación</span>
+          </div>
+          <div class="mini-body">
+            <ul>
+              <li>El TOC se caracteriza por obsesiones (pensamientos intrusivos recurrentes) y/o compulsiones (conductas repetitivas para reducir la ansiedad).</li>
+              <li>La exposición con prevención de respuesta (EPR) es el tratamiento psicológico con mayor respaldo empírico para el TOC.</li>
+              <li class="opinion">Considerando que la EPR genera tasas de abandono elevadas debido al malestar que provoca, los clínicos deberían priorizar intervenciones farmacológicas como primera línea antes de recurrir a técnicas de exposición en pacientes con TOC grave.</li>
+              <li>La clomipramina y los ISRS son los fármacos de primera elección en el tratamiento farmacológico del TOC según las guías clínicas actuales.</li>
+              <li>El TOC tiene una prevalencia del 1–3% en la población general y su inicio suele producirse en la adolescencia o en la adultez joven.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mini-card">
+          <div class="mini-header">
+            <span>Ronda 4 — TDAH</span>
+            <span>Ampliación</span>
+          </div>
+          <div class="mini-body">
+            <ul>
+              <li>El TDAH presenta tres presentaciones según el DSM-5: predominantemente inatento, predominantemente hiperactivo-impulsivo, y combinado.</li>
+              <li>Los estudios de heredabilidad del TDAH estiman un componente genético de entre el 70 y el 80% basándose en estudios con gemelos.</li>
+              <li>El metilfenidato actúa bloqueando la recaptación de dopamina y noradrenalina, incrementando su concentración en la sinapsis.</li>
+              <li class="opinion">El hecho de que los criterios diagnósticos del TDAH se hayan ampliado progresivamente en sucesivas ediciones del DSM indica que el sistema categorial actual sobrediagnostica variaciones normales del temperamento infantil, especialmente en contextos educativos poco estimulantes.</li>
+              <li>Las neuroimágenes muestran diferencias en el desarrollo del córtex prefrontal y el núcleo caudado en personas con TDAH en comparación con grupos control.</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="mini-card">
+          <div class="mini-header">
+            <span>Ronda 5 — T. Personalidad</span>
+            <span>Ampliación</span>
+          </div>
+          <div class="mini-body">
+            <ul>
+              <li>El DSM-5 reconoce 10 trastornos de personalidad organizados en tres grupos (A, B y C) según sus características clínicas predominantes.</li>
+              <li>El trastorno límite de la personalidad (TLP) se asocia con inestabilidad emocional intensa, relaciones interpersonales caóticas y conductas impulsivas.</li>
+              <li>La terapia dialéctico-conductual (DBT) de Linehan fue diseñada específicamente para el TLP y cuenta con sólida evidencia empírica en ensayos clínicos.</li>
+              <li>La prevalencia del trastorno antisocial de la personalidad es mayor en varones que en mujeres, con estimaciones de entre el 3% y el 5% en hombres.</li>
+              <li class="opinion">Dado que los trastornos de personalidad implican patrones egosintónicos difícilmente modificables, invertir recursos terapéuticos intensivos en estos pacientes resulta menos justificable desde una perspectiva de coste-beneficio que hacerlo en trastornos con mayor tasa de remisión espontánea.</li>
+            </ul>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Conclusión</h2>
+    <div class="objective-box">
+      A lo largo de esta dinámica hemos comprobado que <strong>distinguir un hecho de una opinión no siempre es sencillo</strong>, especialmente cuando la opinión está formulada con lenguaje técnico, cita datos reales y sigue la estructura de un argumento científico. En psicopatología, esta dificultad tiene consecuencias directas: un diagnóstico, una decisión terapéutica o una derivación pueden estar contaminados por juicios de valor que el profesional ni siquiera reconoce como tales.<br><br>
+      El pensamiento crítico clínico no consiste en desconfiar de todo, sino en <strong>saber qué tipo de afirmación estamos manejando</strong> en cada momento: ¿describe un fenómeno verificable? ¿prescribe una conducta? ¿es falseable? ¿depende de premisas éticas o culturales no explicitadas? Hacerse estas preguntas de forma sistemática es una de las competencias fundamentales del psicólogo en formación — y esta actividad ha sido un primer entrenamiento para desarrollarla.
+    </div>
+  </section>
+
+  <footer>
+    <span>Dinámica: ¿Quién es el Impostor? · Psicopatología</span>
+    <span>Grado en Psicología · Tercer curso</span>
+  </footer>
+
+</div>
+
+<script>
+  let shown = false;
+  function toggleAnswers() {
+    shown = !shown;
+    const cards = document.getElementById('cardsContainer');
+    const reserve = document.getElementById('reserveContainer');
+    const btn = document.getElementById('toggleBtn');
+    if (shown) {
+      cards.classList.add('show-answers');
+      reserve.classList.add('show-answers');
+      btn.textContent = 'Ocultar impostor';
+    } else {
+      cards.classList.remove('show-answers');
+      reserve.classList.remove('show-answers');
+      btn.textContent = 'Revelar impostor (solo docente)';
+    }
+  }
+</script>
+</body>
+</html>

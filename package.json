@@ -1,0 +1,15 @@
+{
+  "name": "impostor-dinamica",
+  "version": "1.0.0",
+  "description": "Dinámica de aula de Psicopatología - ¿Quién es el Impostor?",
+  "main": "public/index.html",
+  "scripts": {
+    "dev": "npx serve public",
+    "start": "npx serve public",
+    "build": "echo 'No build step needed for static files'"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "serve": "^14.2.4"
+  }
+}
