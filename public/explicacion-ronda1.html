@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explicación — Ronda 1 · El Impostor</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="exp-body">
+
+<div class="exp-back-top">
+  <a href="/" class="back-link">← Volver a la dinámica</a>
+</div>
+
+<div id="introOverlay" class="intro-overlay">
+  <p class="intro-text">Analicemos por qué<br><em>esta afirmación es el impostor</em></p>
+</div>
+
+<div class="page">
+  <header class="exp-header">
+    <div class="label">Análisis · Ronda 1 · Depresión Mayor · Grupo 5</div>
+    <h1 class="exp-h1">La afirmación <em>impostora</em></h1>
+  </header>
+
+  <section>
+    <div class="label" style="margin-bottom:1.5rem;">¿Por qué esta afirmación es una opinión disfrazada de hecho?</div>
+    <div id="animWrapper" class="anim-wrapper anim-wrapper-r1">
+      <svg id="arrowSvg" class="arrow-svg" aria-hidden="true"></svg>
+      <p id="sentenceDisplay" class="sentence-display"></p>
+    </div>
+  </section>
+
+  <div class="exp-footer">
+    <a href="/" class="reveal-btn">← Volver a la dinámica</a>
+  </div>
+</div>
+
+<script>
+window.ROUND_CONFIG = {
+  sentence: "Dado que la hipótesis monoaminérgica ha demostrado ser una explicación etiológica insuficiente de la depresión mayor, los tratamientos farmacológicos basados exclusivamente en ISRS deberían considerarse éticamente cuestionables hasta que se desarrollen modelos explicativos más completos y representativos.",
+  arrows: [
+    {
+      color: 'green',
+      side: 'above',
+      offset: 80,
+      tokenIndices: [2,3,4,5,6,7,8,9,10,11],
+      label: "Premisa factual real → el Sistema 1 la acepta y arrastra la conclusión (modelo spinozano, Gilbert 1991)"
+    },
+    {
+      color: 'red',
+      side: 'below',
+      offset: 70,
+      tokenIndices: [23,24],
+      label: "Verbo deóntico: convierte la frase en prescripción normativa no verificable empíricamente"
+    },
+    {
+      color: 'red',
+      side: 'below',
+      offset: 210,
+      tokenIndices: [25,26],
+      label: "Juicio de valor encubierto: depende de premisas valorativas no explicitadas (razonamiento motivado, Kunda 1990)"
+    }
+  ]
+};
+</script>
+<script src="explanation.js"></script>
+</body>
+</html>

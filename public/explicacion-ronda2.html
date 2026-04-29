@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explicación — Ronda 2 · El Impostor</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body class="exp-body">
+
+<div class="exp-back-top">
+  <a href="/" class="back-link">← Volver a la dinámica</a>
+</div>
+
+<div id="introOverlay" class="intro-overlay">
+  <p class="intro-text">Analicemos por qué<br><em>esta afirmación es el impostor</em></p>
+</div>
+
+<div class="page">
+  <header class="exp-header">
+    <div class="label">Análisis · Ronda 2 · Esquizofrenia · Grupo 4</div>
+    <h1 class="exp-h1">La afirmación <em>impostora</em></h1>
+  </header>
+
+  <section>
+    <div class="label" style="margin-bottom:1.5rem;">¿Por qué esta afirmación es una opinión disfrazada de hecho?</div>
+    <div id="animWrapper" class="anim-wrapper">
+      <svg id="arrowSvg" class="arrow-svg" aria-hidden="true"></svg>
+      <p id="sentenceDisplay" class="sentence-display"></p>
+    </div>
+  </section>
+
+  <div class="exp-footer">
+    <a href="/" class="reveal-btn">← Volver a la dinámica</a>
+  </div>
+</div>
+
+<script>
+window.ROUND_CONFIG = {
+  sentence: "Puesto que la desregulación dopaminérgica mesolímbica explica los síntomas positivos pero no los negativos ni los cognitivos, el modelo dopaminérgico sigue siendo el marco teórico más adecuado para orientar el tratamiento integral de la esquizofrenia.",
+  arrows: [
+    {
+      color: 'green',
+      side: 'above',
+      offset: 80,
+      tokenIndices: [2,3,4,5,6,7,8,9,10,11,12,13,14,15,16],
+      label: "Premisa factual reconocida → genera fluidez de procesamiento; el Sistema 1 infiere verdad por familiaridad (efecto de verdad ilusoria, Hasher et al. 1977)"
+    },
+    {
+      color: 'red',
+      side: 'below',
+      offset: 70,
+      tokenIndices: [22,23,24,25,26],
+      label: "Juicio valorativo: 'más adecuado' implica una jerarquía evaluativa que no puede verificarse intersubjetivamente (myside bias, Stanovich et al. 2013)"
+    }
+  ]
+};
+</script>
+<script src="explanation.js"></script>
+</body>
+</html>

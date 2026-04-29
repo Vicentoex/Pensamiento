@@ -48,7 +48,7 @@ function showResultOverlay(isCorrect) {
   playResultSound(isCorrect);
 }
 
-function initializeRound(roundId, containerId, buttonId) {
+function initializeRound(roundId, containerId, buttonId, explainLinkId) {
   const container = document.getElementById(containerId);
   const revealButton = document.getElementById(buttonId);
 
@@ -77,12 +77,17 @@ function initializeRound(roundId, containerId, buttonId) {
     const isCorrect = selectedCard.dataset.impostor === 'true';
     selectedCard.classList.add(isCorrect ? 'impostor-found' : 'wrong-choice');
     showResultOverlay(isCorrect);
+
+    if (explainLinkId) {
+      const explainLink = document.getElementById(explainLinkId);
+      if (explainLink) explainLink.hidden = false;
+    }
   });
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  initializeRound('round1', 'round1Container', 'revealRound1Btn');
-  initializeRound('round2', 'round2Container', 'revealRound2Btn');
+  initializeRound('round1', 'round1Container', 'revealRound1Btn', 'explainRound1Link');
+  initializeRound('round2', 'round2Container', 'revealRound2Btn', 'explainRound2Link');
 
   const closeButton = document.getElementById('closeResultOverlayBtn');
   const overlay = document.getElementById('resultOverlay');
