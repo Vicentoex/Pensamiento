@@ -603,19 +603,19 @@ TION ===== */
   opacity: 0;
   animation: titleReveal 1s cubic-bezier(0.22, 1, 0.36, 1) forwards 0.4s;
   text-shadow: 0 10px 30px rgba(0,0,0,0.5);
-  margin-left: auto;
-  margin-right: auto;
+  text-align: center;
+  width: 100%;
 }
 
 .title-small {
-  font-size: clamp(2.5rem, 6vw, 4rem);
+  font-size: clamp(3.5rem, 8vw, 5.5rem);
   color: var(--cream);
   display: block;
   margin-bottom: 0.5rem;
 }
 
 .title-large {
-  font-size: clamp(5rem, 16vw, 12rem);
+  font-size: clamp(6.5rem, 20vw, 16rem);
   display: block;
   letter-spacing: -0.02em;
 }
