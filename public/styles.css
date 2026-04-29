@@ -549,7 +549,8 @@ footer {
 .explanation-btn:hover { background: var(--gold); color: var(--ink); }
 
 .exp-footer { margin-top: 2.5rem; text-align: center; }
-TION ===== */
+
+/* ===== HERO SECTION ===== */
 .hero-container {
   width: 100%;
   min-height: 80vh;
