@@ -5,6 +5,8 @@
   --cream: #f5f0e8;
   --gold: #c9a84c;
   --rust: #b5451b;
+  --success: #1ea65a;
+  --danger: #c62828;
   --muted: #7a7060;
   --border: rgba(26,26,46,0.15);
 }
@@ -165,13 +167,6 @@ h2::before {
   opacity: 0.75;
 }
 
-.impostor-card .card-role { visibility: hidden; }
-
-.show-answers .impostor-card .card-role { visibility: visible; }
-.show-answers .impostor-card .card-header { background: var(--rust); }
-.show-answers .impostor-card { border-color: var(--rust); }
-.show-answers .impostor-card .card-body blockquote { color: var(--rust); font-style: italic; }
-
 .card-body { padding: 1.1rem 1.2rem; font-size: 0.92rem; line-height: 1.65; }
 
 .card-body .topic-label {
@@ -231,64 +226,9 @@ h2::before {
 
 .debate-card p { font-size: 0.84rem; color: var(--muted); }
 
-.reserve-wrap {
-  border: 1px solid var(--border);
-  border-radius: 2px;
-  overflow: hidden;
-}
-
-.reserve-header {
-  background: var(--ink);
-  color: var(--cream);
-  padding: 0.9rem 1.4rem;
-}
-
-.reserve-header h3 {
-  font-family: 'Playfair Display', serif;
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-.reserve-header p { font-size: 0.8rem; opacity: 0.7; margin-top: 0.15rem; }
-
-.reserve-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
-  gap: 1.2rem;
-  padding: 1.2rem;
-  background: white;
-}
-
-.mini-card { border: 1px solid var(--border); border-radius: 2px; overflow: hidden; }
-
-.mini-header {
-  background: #2d2d3d;
-  color: var(--cream);
-  padding: 0.5rem 1rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.mini-header span:first-child { font-family: 'Playfair Display', serif; font-weight: 700; font-size: 0.9rem; }
-.mini-header span:last-child { font-size: 0.65rem; opacity: 0.6; letter-spacing: 0.08em; text-transform: uppercase; }
-
-.mini-body { padding: 0.8rem 1rem; }
-
-.mini-body ul { list-style: none; display: flex; flex-direction: column; gap: 0.45rem; }
-
-.mini-body ul li {
-  font-size: 0.82rem;
-  padding: 0.4rem 0.7rem;
-  border-left: 3px solid var(--border);
-  line-height: 1.45;
-}
-
-.mini-body ul li.opinion { border-left-color: var(--border); }
-
 .toggle-section { text-align: center; margin-top: 1.5rem; }
 
-#toggleBtn {
+.reveal-btn {
   font-family: 'DM Sans', sans-serif;
   font-size: 0.82rem;
   letter-spacing: 0.1em;
@@ -302,7 +242,103 @@ h2::before {
   border-radius: 2px;
 }
 
-#toggleBtn:hover { background: var(--ink); color: var(--cream); }
+.reveal-btn:hover { background: var(--ink); color: var(--cream); }
+
+.selectable-card {
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.selectable-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(26, 26, 46, 0.12);
+}
+
+.selectable-card:focus-visible {
+  outline: 2px solid var(--gold);
+  outline-offset: 2px;
+}
+
+.selectable-card.selected {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 2px rgba(201, 168, 76, 0.35);
+}
+
+.selectable-card.impostor-found {
+  border-color: var(--success);
+  box-shadow: 0 0 0 2px rgba(30, 166, 90, 0.35);
+}
+
+.selectable-card.wrong-choice {
+  border-color: var(--danger);
+  box-shadow: 0 0 0 2px rgba(198, 40, 40, 0.3);
+}
+
+.result-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+}
+
+.result-overlay.success {
+  background: rgba(30, 166, 90, 0.95);
+}
+
+.result-overlay.error {
+  background: rgba(198, 40, 40, 0.95);
+}
+
+.result-content {
+  text-align: center;
+  color: #fff;
+  max-width: 700px;
+}
+
+.result-icon {
+  font-size: clamp(5rem, 18vw, 12rem);
+  line-height: 1;
+  font-weight: 900;
+}
+
+.result-title {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(2rem, 7vw, 3.5rem);
+  margin: 0.8rem 0 0.4rem;
+}
+
+.result-title::before {
+  content: none;
+}
+
+.result-message {
+  font-size: clamp(1rem, 2.2vw, 1.2rem);
+}
+
+.result-close-btn {
+  margin-top: 1.4rem;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  background: #fff;
+  color: #1a1a2e;
+  border: none;
+  border-radius: 2px;
+  padding: 0.75rem 1.7rem;
+  cursor: pointer;
+}
+
+.result-close-btn:hover {
+  opacity: 0.9;
+}
+
+body.result-locked {
+  overflow: hidden;
+}
 
 footer {
   margin-top: 3rem;
